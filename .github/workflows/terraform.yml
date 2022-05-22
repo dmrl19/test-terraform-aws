@@ -41,6 +41,8 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -input=false -var=region=${{ secrets.AWS_DEFAULT_REGION }}
       working-directory: 'src/infrastructure'
+      with:
+        region:"a"
       env:
         AWS_ACCESS_KEY:  ${{ secrets.AWS_ACCESS_KEY }}
         AWS_SECRET_KEY:  ${{ secrets.AWS_SECRET_KEY }}
