@@ -26,5 +26,5 @@ provider "aws" {
   # Create enviroment variables with "AWS_SECRET_KEY", "AWS_ACCESS_KEY", "AWS_DEFAULT_REGION" to not set them here.
   # access_key = "[AWS_ACCESS_KEY]"
   # secret_key = "[AWS_SECRET_KEY]"
-  # region = "[AWS_DEFAULT_REGION]"
+   region = var.region
 }
