@@ -39,9 +39,9 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -input=false
+      run: terraform plan -input=false -var=region=${{ secrets.AWS_DEFAUKT_REGION }}
       working-directory: 'src/infrastructure'
       env:
         AWS_ACCESS_KEY:  ${{ secrets.AWS_ACCESS_KEY }}
         AWS_SECRET_KEY:  ${{ secrets.AWS_SECRET_KEY }}
-        TF_VAR_region: ${{ secrets.AWS_DEFAULT_REGION }}
+#        TF_VAR_region: ${{ secrets.AWS_DEFAULT_REGION }}
