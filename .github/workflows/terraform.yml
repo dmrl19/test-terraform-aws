@@ -1,7 +1,7 @@
 name: 'Terraform-deploy'
 
 env:
-  test: ${{ github.ref == 'refs/heads/develop' && 'a' || 'b' }}
+  test: ${{ github.ref == 'refs/heads/main' && 'a' || 'b' }}
 
 on:
   push:
