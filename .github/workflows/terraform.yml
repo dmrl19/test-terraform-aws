@@ -1,13 +1,10 @@
 name: 'Terraform-deploy'
 
-env:
-  test: ${{ github.ref == 'refs/heads/main' && 'a' || 'b' }}
-
 on:
   push:
     branches:
     - develop
-#  pull_request:
+    - main
   workflow_dispatch:
     
 jobs:
@@ -15,7 +12,7 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     # Specify the environment, where you will fetch the secrets
-    environment: dev
+    environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
