@@ -4,7 +4,7 @@ on:
   push:
     branches:
     - develop
-    - main
+    - master
   workflow_dispatch:
     
 jobs:
@@ -12,7 +12,7 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     # Specify the environment, where you will fetch the secrets
-    environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+    environment: ${{ github.ref == 'refs/heads/master' && 'prod' || 'dev' }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
