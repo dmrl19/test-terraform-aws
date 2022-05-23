@@ -1,5 +1,8 @@
 name: 'Terraform-deploy'
 
+env:
+  test: github.ref == 'refs/heads/develop' ? 'a' :'b'
+
 on:
   push:
     branches:
@@ -24,44 +27,46 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     
+    - name: test
+      run: echo ${{ env.test }}
+    
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: terraform init
-      working-directory: 'src/infrastructure'
-      env:
-        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY }}
-        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-#        TF_WORKSPACE: ${{ secrets.WORKSPACE }}
+#     - name: Terraform Init
+#       run: terraform init
+#       working-directory: 'src/infrastructure'
+#       env:
+#         AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY }}
+#         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_KEY }}
+#         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 
-    # Checks that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Format
-      run: terraform fmt -check
+#     # Checks that all Terraform configuration files adhere to a canonical format
+#     - name: Terraform Format
+#       run: terraform fmt -check
 
-    - name: Select workspace
-      run:   terraform workspace select ${{ secrets.WORKSPACE }} || terraform workspace new ${{ secrets.WORKSPACE }}
-      working-directory: 'src/infrastructure'
-      env:
-        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY }}
-        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+#     - name: Select or Create workspace
+#       run:   terraform workspace select ${{ secrets.WORKSPACE }} || terraform workspace new ${{ secrets.WORKSPACE }}
+#       working-directory: 'src/infrastructure'
+#       env:
+#         AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY }}
+#         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_KEY }}
+#         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
         
-    # Generates an execution plan for Terraform
-    - name: Terraform Plan
-      run: terraform plan -input=false #-var=region={{ secrets.AWS_DEFAULT_REGION }}
-      working-directory: 'src/infrastructure'
-      env:
-        AWS_ACCESS_KEY:  ${{ secrets.AWS_ACCESS_KEY }}
-        AWS_SECRET_KEY:  ${{ secrets.AWS_SECRET_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-        TF_VAR_region: ${{ secrets.AWS_DEFAULT_REGION }}        
+#     # Generates an execution plan for Terraform
+#     - name: Terraform Plan
+#       run: terraform plan -input=false #-var=region={{ secrets.AWS_DEFAULT_REGION }}
+#       working-directory: 'src/infrastructure'
+#       env:
+#         AWS_ACCESS_KEY:  ${{ secrets.AWS_ACCESS_KEY }}
+#         AWS_SECRET_KEY:  ${{ secrets.AWS_SECRET_KEY }}
+#         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+#         TF_VAR_region: ${{ secrets.AWS_DEFAULT_REGION }}        
         
-    - name: Terraform apply
-      if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
-      run: terraform apply -auto-approve -input=false
-      working-directory: 'src/infrastructure'
-      env:
-        AWS_ACCESS_KEY:  ${{ secrets.AWS_ACCESS_KEY }}
-        AWS_SECRET_KEY:  ${{ secrets.AWS_SECRET_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-        TF_VAR_region: ${{ secrets.AWS_DEFAULT_REGION }}
+#     - name: Terraform apply
+#       if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+#       run: terraform apply -auto-approve -input=false
+#       working-directory: 'src/infrastructure'
+#       env:
+#         AWS_ACCESS_KEY:  ${{ secrets.AWS_ACCESS_KEY }}
+#         AWS_SECRET_KEY:  ${{ secrets.AWS_SECRET_KEY }}
+#         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+#         TF_VAR_region: ${{ secrets.AWS_DEFAULT_REGION }}
