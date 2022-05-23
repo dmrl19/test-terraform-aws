@@ -56,13 +56,13 @@ jobs:
 #         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_KEY }}
 #         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
         
-#     - name: Select workspace
-#       run:  terraform workspace select ${{ secrets.WORKSPACE }}
-#       working-directory: 'src/infrastructure'
-#       env:
-#         AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY }}
-#         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_KEY }}
-#         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+    - name: Select workspace
+      run:  terraform workspace select ${{ secrets.WORKSPACE }}
+      working-directory: 'src/infrastructure'
+      env:
+        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY }}
+        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
         
     - name: Terraform apply
       if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
